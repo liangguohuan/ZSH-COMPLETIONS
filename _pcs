@@ -1,0 +1,36 @@
+#compdef pcs
+# ------------------------------------------------------------------------------
+# Copyright (c) 2011 Github zsh-users - http://github.com/zsh-users
+# All rights reserved.
+#
+# ------------------------------------------------------------------------------
+# Description
+# -----------
+#
+#  Completion script for pcs.
+#
+# ------------------------------------------------------------------------------
+# Authors
+# -------
+#
+#  * liangguohuan (https://github.com/liangguohuan)
+#
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# => nice display
+# ------------------------------------------------------------------------------
+_pcs_get_command_list () {
+    pcs help \
+        | sed -n '/Commands/,/Use/p' | sed -e '1d' -e '$d' \
+        | awk '/[a-z]+/ { print $1":"$2,$3,$4,$5,$6,$7,$8,$9,$10 }' \
+        | sed -e 's/\d39/\'\''/g' -e 's/^/"/' -e 's/$/"/'
+}
+
+declare -a pcs_commands
+declare _pcs_get_command_list_str
+
+_pcs_get_command_list_str=`_pcs_get_command_list`
+
+eval "pcs_commands=(${_pcs_get_command_list_str})"
+_describe -t pcs_commands 'pcs COMMANDS' pcs_commands

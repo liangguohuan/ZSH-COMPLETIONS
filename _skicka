@@ -1,0 +1,38 @@
+#compdef skicka
+# ------------------------------------------------------------------------------
+# Copyright (c) 2011 Github zsh-users - http://github.com/zsh-users
+# All rights reserved.
+#
+# ------------------------------------------------------------------------------
+# Description
+# -----------
+#
+#  Completion script for skicka.
+#
+# ------------------------------------------------------------------------------
+# Authors
+# -------
+#
+#  * liangguohuan (https://github.com/liangguohuan)
+#
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# => nice display
+# ------------------------------------------------------------------------------
+_skicka_get_command_list () {
+    skicka 2>&1 >/dev/null \
+        | sed -n '/\scat\s/,$p' \
+        | sed "s/'skicka help'/help/" \
+        | awk '/[a-z]+/ { print $1":"$2,$3,$4,$5,$6,$7,$8,$9,$10 }' \
+        | sed -e 's/\d39/\'\''/g' -e 's/^/"/' -e 's/$/"/'
+
+}
+
+declare -a skicka_commands
+declare _skicka_get_command_list_str
+
+_skicka_get_command_list_str=`_skicka_get_command_list`
+
+eval "skicka_commands=(${_skicka_get_command_list_str})"
+_describe -t skicka_commands 'skicka COMMANDS' skicka_commands

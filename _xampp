@@ -1,0 +1,36 @@
+#compdef xampp
+# ------------------------------------------------------------------------------
+# Copyright (c) 2011 Github zsh-users - http://github.com/zsh-users
+# All rights reserved.
+#
+# ------------------------------------------------------------------------------
+# Description
+# -----------
+#
+#  Completion script for xampp.
+#
+# ------------------------------------------------------------------------------
+# Authors
+# -------
+#
+#  * liangguohuan (https://github.com/liangguohuan)
+#
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# => nice display
+# ------------------------------------------------------------------------------
+_xampp_get_command_list () {
+    xampp \
+        | sed -e '1,2d'  -e '$d' \
+        | awk '/[a-z]+/ { print $1":"$2,$3,$4,$5,$6,$7,$8,$9,$10 }' \
+        | sed -e 's/\d39/\'\''/g' -e 's/^/"/' -e 's/$/"/'
+}
+
+declare -a xampp_commands
+declare _xampp_get_command_list_str
+
+_xampp_get_command_list_str=`_xampp_get_command_list`
+
+eval "xampp_commands=(${_xampp_get_command_list_str})"
+_describe -t xampp_commands 'xampp COMMANDS' xampp_commands

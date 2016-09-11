@@ -1,0 +1,35 @@
+#compdef pecl
+# ------------------------------------------------------------------------------
+# Copyright (c) 2011 Github zsh-users - http://github.com/zsh-users
+# All rights reserved.
+#
+# ------------------------------------------------------------------------------
+# Description
+# -----------
+#
+#  Completion script for pecl.
+#
+# ------------------------------------------------------------------------------
+# Authors
+# -------
+#
+#  * liangguohuan (https://github.com/liangguohuan)
+#
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# => nice display
+# ------------------------------------------------------------------------------
+_pecl_get_command_list () {
+    pecl help \
+        | sed -e '1d'  -e '/Usage/,$d' \
+        | awk '/[a-z]+/ { print "'\''"$1":"$2,$3,$4,$5,$6,$7,$8,$9,$10"'\''" }'
+}
+
+declare -a pecl_commands
+declare _pecl_get_command_list_str
+
+_pecl_get_command_list_str=`_pecl_get_command_list`
+
+eval "pecl_commands=(${_pecl_get_command_list_str})"
+_describe -t pecl_commands 'pecl COMMANDS' pecl_commands

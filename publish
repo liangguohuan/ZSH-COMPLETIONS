@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# ls /usr/local/share/zsh/site-functions/*(^@) | xargs -i -t sudo cp -f {} /home/hanson/KuaiPan/zsh-completions
+
+DIR_SOURCE=$(pwd)
+DIR_DEST="/usr/local/share/zsh/site-functions"
+for FILE in $( find "$DIR_SOURCE" -type f -name "_*" )
+do
+    FILENAME=${FILE/"${DIR_SOURCE}"\//}
+    DEST="${DIR_DEST}/${FILENAME}"
+    [[ ! -f "${DEST}" ]] && sudo ln -sf "${FILE}" "${DEST}"
+done
+
+echo "successed!"

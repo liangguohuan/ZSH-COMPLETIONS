@@ -1,0 +1,36 @@
+#compdef unison
+# ------------------------------------------------------------------------------
+# Copyright (c) 2011 Github zsh-users - http://github.com/zsh-users
+# All rights reserved.
+#
+# ------------------------------------------------------------------------------
+# Description
+# -----------
+#
+#  Completion script for unison.
+#
+# ------------------------------------------------------------------------------
+# Authors
+# -------
+#
+#  * liangguohuan (https://github.com/liangguohuan)
+#
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# => nice display
+# ------------------------------------------------------------------------------
+_unison_get_command_list () {
+    unison -help \
+        | grep -E "^\s+\-" | sed -e 's/\sxxx//g' -e 's/\sn//g' \
+        | awk '/[a-z]+/ { print $1":"$2,$3,$4,$5,$6,$7,$8,$9,$10 }' \
+        | sed -e 's/\d39/\'\''/g' -e 's/^/"/' -e 's/$/"/'
+}
+
+declare -a unison_commands
+declare _unison_get_command_list_str
+
+_unison_get_command_list_str=`_unison_get_command_list`
+
+eval "unison_commands=(${_unison_get_command_list_str})"
+_describe -t unison_commands 'unison COMMANDS' unison_commands

@@ -1,0 +1,52 @@
+#compdef homestead
+# ------------------------------------------------------------------------------
+# Copyright (c) 2011 Github zsh-users - http://github.com/zsh-users
+# All rights reserved.
+#
+# ------------------------------------------------------------------------------
+# Description
+# -----------
+#
+#  Completion script for homestead.
+#
+# ------------------------------------------------------------------------------
+# Authors
+# -------
+#
+#  * liangguohuan (https://github.com/liangguohuan)
+#
+# ------------------------------------------------------------------------------
+
+ 
+# ------------------------------------------------------------------------------
+# => simple display
+# ------------------------------------------------------------------------------
+# _homestead_get_command_list () {
+#     homestead list --no-ansi | sed "1,/Available commands/d" | awk '/ [a-z]+/ { print $1 }'
+# }
+
+# _homestead () {
+#     # if [ -f homestead ]; then
+#     compadd `_homestead_get_command_list`
+#     # fi
+# }
+
+# compdef _homestead homestead
+
+
+# ------------------------------------------------------------------------------
+# => nice display
+# ------------------------------------------------------------------------------
+_homestead_get_command_list () {
+    homestead list --no-ansi \
+        | sed "1,/Available commands/d" \
+        | awk '/ [a-z]+/ { print "'\''"$1":"$2,$3,$4,$5,$6,$7,$8,$9,$10"'\''" }'
+}
+
+declare -a homestead_commands
+declare _homestead_get_command_list_str
+
+_homestead_get_command_list_str=`_homestead_get_command_list`
+
+eval "homestead_commands=(${_homestead_get_command_list_str})"
+_describe -t homestead_commands 'HOMESTEAD COMMANDS' homestead_commands

@@ -1,0 +1,55 @@
+#compdef trash-recover
+# ------------------------------------------------------------------------------
+# Copyright (c) 2011 Github zsh-users - http://github.com/zsh-users
+# All rights reserved.
+#
+# ------------------------------------------------------------------------------
+# Description
+# -----------
+#
+#  Completion script for trash-recover.
+#
+# ------------------------------------------------------------------------------
+# Authors
+# -------
+#
+#  * liangguohuan (https://github.com/liangguohuan)
+#
+# ------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------
+# => nice display
+# ------------------------------------------------------------------------------
+_trash-recover_get_command_list () {
+    DIR_TRASHFILE="${HOME}/.local/share/Trash/files"
+    DIR_TRASHFILEINFO="${HOME}/.local/share/Trash/info"
+
+    CACHE_FILE="/tmp/trash-file.cache"
+    REAL_TIME=$( stat -c %X "${DIR_TRASHFILE}" )
+    CACHE_TIME=0
+    [[ -f "${CACHE_FILE}" ]] && CACHE_TIME=$( sed -n "/TIME_FOR_CACHE/p" "${CACHE_FILE}" | sed "s/TIME_FOR_CACHE://" )
+
+    if [[ "${REAL_TIME}" > "${CACHE_TIME}" ]]; then
+        ALLINFO="TIME_FOR_CACHE:${REAL_TIME}\n"
+        for FILE in $( ls "${DIR_TRASHFILE}" )
+        do
+            FILEPATH_TRASHINFO="${DIR_TRASHFILEINFO}/${FILE}.trashinfo"
+            FILEPATH_RECOVER=$( sed -n "/Path/p" "${FILEPATH_TRASHINFO}" | sed "s/Path=//" )
+            DELETIONDATE=$( sed -n "/DeletionDate/p" "${FILEPATH_TRASHINFO}" | sed "s/DeletionDate=//" )
+            echo "\"${FILE}:${DELETIONDATE} ${FILEPATH_RECOVER}\""
+            ALLINFO="${ALLINFO}\"${FILE}:${DELETIONDATE} ${FILEPATH_RECOVER}\"\n"
+        done
+        echo -e "${ALLINFO}" > "$CACHE_FILE"
+    else
+        cat "${CACHE_FILE}" | grep -v "TIME_FOR_CACHE"
+    fi    
+}
+
+declare -a trash_recover_commands
+declare _trash_recover_get_command_list_str
+
+_trash_recover_get_command_list_str=`_trash-recover_get_command_list`
+
+eval "trash_recover_commands=(${_trash_recover_get_command_list_str})"
+_describe -t trash_recover_commands 'trash-recover COMMANDS' trash_recover_commands
+

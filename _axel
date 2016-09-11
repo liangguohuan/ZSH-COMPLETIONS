@@ -1,0 +1,52 @@
+#compdef axel
+# ------------------------------------------------------------------------------
+# Copyright (c) 2011 Github zsh-users - http://github.com/zsh-users
+# All rights reserved.
+#
+# ------------------------------------------------------------------------------
+# Description
+# -----------
+#
+#  Completion script for axel.
+#
+# ------------------------------------------------------------------------------
+# Authors
+# -------
+#
+#  * liangguohuan (https://github.com/liangguohuan)
+#
+# ------------------------------------------------------------------------------
+
+ 
+# ------------------------------------------------------------------------------
+# => simple display
+# ------------------------------------------------------------------------------
+# _axel_get_command_list () {
+#     axel list --no-ansi | sed "1,/Available commands/d" | awk '/ [a-z]+/ { print $1 }'
+# }
+
+# _axel () {
+#     # if [ -f axel ]; then
+#     compadd `_axel_get_command_list`
+#     # fi
+# }
+
+# compdef _axel axel
+
+
+# ------------------------------------------------------------------------------
+# => nice display
+# ------------------------------------------------------------------------------
+_axel_get_command_list () {
+    axel list --no-ansi \
+        | sed "1,/Available commands/d" \
+        | awk '/ [a-z]+/ { print "'\''"$1":"$2,$3,$4,$5,$6,$7,$8,$9,$10"'\''" }'
+}
+
+declare -a axel_commands
+declare _axel_get_command_list_str
+
+_axel_get_command_list_str=`_axel_get_command_list`
+
+eval "axel_commands=(${_axel_get_command_list_str})"
+_describe -t axel_commands 'axel COMMANDS' axel_commands
