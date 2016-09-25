@@ -34,8 +34,8 @@ _trash-recover_get_command_list () {
         for FILE in $( ls "${DIR_TRASHFILE}" )
         do
             FILEPATH_TRASHINFO="${DIR_TRASHFILEINFO}/${FILE}.trashinfo"
-            FILEPATH_RECOVER=$( sed -n "/Path/p" "${FILEPATH_TRASHINFO}" | sed "s/Path=//" )
-            DELETIONDATE=$( sed -n "/DeletionDate/p" "${FILEPATH_TRASHINFO}" | sed "s/DeletionDate=//" )
+            FILEPATH_RECOVER=$( sudo sed -n "/Path/p" "${FILEPATH_TRASHINFO}" | sed "s/Path=//" )
+            DELETIONDATE=$( sudo sed -n "/DeletionDate/p" "${FILEPATH_TRASHINFO}" | sed "s/DeletionDate=//" )
             echo "\"${FILE}:${DELETIONDATE} ${FILEPATH_RECOVER}\""
             ALLINFO="${ALLINFO}\"${FILE}:${DELETIONDATE} ${FILEPATH_RECOVER}\"\n"
         done
