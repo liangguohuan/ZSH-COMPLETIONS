@@ -25,7 +25,7 @@ _trash-recover_get_command_list () {
     DIR_TRASHFILEINFO="${HOME}/.local/share/Trash/info"
 
     CACHE_FILE="/tmp/trash-file.cache"
-    REAL_TIME=$( stat -c %X "${DIR_TRASHFILE}" )
+    REAL_TIME=$( stat -c %Y "${DIR_TRASHFILE}" )
     CACHE_TIME=0
     [[ -f "${CACHE_FILE}" ]] && CACHE_TIME=$( sed -n "/TIME_FOR_CACHE/p" "${CACHE_FILE}" | sed "s/TIME_FOR_CACHE://" )
 
