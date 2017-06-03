@@ -1,4 +1,9 @@
 #!/bin/bash
+#------------------------------------------------------------------------------
+# Notice: 
+#   1. file must be runable
+#   2. reload zsh: src command
+#------------------------------------------------------------------------------
 
 # ls /usr/local/share/zsh/site-functions/*(^@) | xargs -i -t sudo cp -f {} /home/hanson/KuaiPan/zsh-completions
 

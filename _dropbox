@@ -1,0 +1,34 @@
+#compdef dropbox
+# ------------------------------------------------------------------------------
+# Copyright (c) 2011 Github zsh-users - http://github.com/zsh-users
+# All rights reserved.
+#
+# ------------------------------------------------------------------------------
+# Description
+# -----------
+#
+#  Completion script for dropbox.
+#
+# ------------------------------------------------------------------------------
+# Authors
+# -------
+#
+#  * liangguohuan (https://github.com/liangguohuan)
+#
+# ------------------------------------------------------------------------------
+
+_dropbox() {
+  _values \
+    'command' \
+    'status[get current status of the dropboxd]' \
+    'help[provide help]' \
+    'puburl[get public url of a file in your dropbox]' \
+    'stop[stop dropboxd]' \
+    'running[return whether dropbox is running]' \
+    'start[start dropboxd]' \
+    'filestatus[get current sync status of one or more files]' \
+    'ls[list directory contents with current sync status]' \
+    'autostart[automatically start dropbox at login]' \
+    'exclude[ignores/excludes a directory from syncing]' \
+    'lansync[enables or disables LAN sync]' \
+}
